@@ -31,7 +31,7 @@ export const loadConfig = (): Config => {
   return {
     SLACK_SIGNING_SECRET: getEnv("SLACK_SIGNING_SECRET"),
     SLACK_BOT_TOKEN: getEnv("SLACK_BOT_TOKEN"),
-    SLACK_APP_TOKEN: getEnv("SLACK_APP"),
+    SLACK_APP_TOKEN: getEnv("SLACK_APP_TOKEN"),
     NODE_ENV: getEnv("NODE_ENV", (value) => {
       if (value !== "development" && value !== "production" && value !== "test") {
         throw new AppError(
