@@ -26,18 +26,19 @@ export default [
     rules: {
       "prettier/prettier": "error",
       "max-len": ["error", { code: 100 }],
-      "@typescript-eslint/no-unused-vars": [ // Ignore unused variables that start with an underscore
+      // Ignore unused variables that start with an underscore
+      "@typescript-eslint/no-unused-vars": [
         "error",
         {
-          "args": "all",
-          "argsIgnorePattern": "^_",
-          "caughtErrors": "all",
-          "caughtErrorsIgnorePattern": "^_",
-          "destructuredArrayIgnorePattern": "^_",
-          "varsIgnorePattern": "^_",
-          "ignoreRestSiblings": true
-        }
-          ]
+          args: "all",
+          argsIgnorePattern: "^_",
+          caughtErrors: "all",
+          caughtErrorsIgnorePattern: "^_",
+          destructuredArrayIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          ignoreRestSiblings: true,
+        },
+      ],
     },
   },
 ];
