@@ -1,0 +1,163 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id                 Int                 @id @default(autoincrement())
+    slackUserId        String              @unique
+    name               String?
+    email              String?
+    avatar             String?
+    createdAt          DateTime            @default(now())
+    Scores             Score[]
+    Streaks            Streak[]
+    UserAnswers        UserAnswer[]
+    ChallengeResponses ChallengeResponse[]
+}
+
+model Text {
+    id        Int        @id @default(autoincrement())
+    type      TextType // READING/LISTENING
+    title     String
+    content   String
+    sound     String?
+    image     String?
+    createdAt DateTime   @default(now())
+    Questions Question[] @relation("TextToQuestion")
+}
+
+model Word {
+    id           Int          @id @default(autoincrement())
+    term         String
+    definition   String
+    partOfSpeech PartOfSpeech //NOUN, VERB, ADJ
+    example      String?
+    sound        String?
+    image        String?
+    createdAt    DateTime     @default(now())
+    Questions    Question[]   @relation("WordToQuestion")
+}
+
+model Question {
+    id              Int              @id @default(autoincrement())
+    type            QuestionType
+    content         String
+    hint            String?
+    explanation     String?
+    textId          Int?
+    wordId          Int?
+    answerType      AnswerType
+    createdAt       DateTime         @default(now())
+    Text            Text?            @relation("TextToQuestion", fields: [textId], references: [id])
+    Word            Word?            @relation("WordToQuestion", fields: [wordId], references: [id])
+    Answers         Answer[]
+    UserAnswers     UserAnswer[]
+    DailyChallenges DailyChallenge[]
+}
+
+model Answer {
+    id          Int          @id @default(autoincrement())
+    questionId  Int
+    content     String
+    isCorrect   Boolean
+    explanation String?
+    sound       String?
+    image       String?
+    type        AnswerType
+    createdAt   DateTime     @default(now())
+    Question    Question     @relation(fields: [questionId], references: [id])
+    UserAnswers UserAnswer[]
+}
+
+model Score {
+    id           Int      @id @default(autoincrement())
+    userId       Int
+    monthlyScore Int      @default(0)
+    month        DateTime
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+    User         User     @relation(fields: [userId], references: [id])
+}
+
+model Streak {
+    id        Int      @id @default(autoincrement())
+    userId    Int
+    date      DateTime
+    createdAt DateTime @default(now())
+    User      User     @relation(fields: [userId], references: [id])
+
+    @@unique([userId, date]) //Should normalize the date to keep it unique.
+}
+
+model UserAnswer {
+    id           Int      @id @default(autoincrement())
+    userId       Int
+    questionId   Int
+    answerId     Int?
+    isCorrect    Boolean
+    responseTime Int
+    createdAt    DateTime @default(now())
+    User         User     @relation(fields: [userId], references: [id])
+    Question     Question @relation(fields: [questionId], references: [id])
+    Answer       Answer?  @relation(fields: [answerId], references: [id])
+}
+
+model DailyChallenge {
+    id                 Int                 @id @default(autoincrement())
+    questionId         Int
+    activeDate         DateTime            @default(now())
+    Question           Question            @relation(fields: [questionId], references: [id])
+    ChallengeResponses ChallengeResponse[]
+}
+
+model ChallengeResponse {
+    id             Int            @id @default(autoincrement())
+    challengeId    Int
+    userId         Int
+    responseTime   Int
+    rank           Int
+    score          Int
+    createdAt      DateTime       @default(now())
+    DailyChallenge DailyChallenge @relation(fields: [challengeId], references: [id])
+    User           User           @relation(fields: [userId], references: [id])
+}
+
+enum TextType {
+    reading
+    listening
+}
+
+enum PartOfSpeech {
+    noun
+    verb
+    adjective
+    adverb
+}
+
+enum QuestionType {
+    multipleChoice
+    fillInTheBlank
+    trueFalse
+    matching
+    openEnded
+    listeningComprehension
+    readingComprehension
+}
+
+enum AnswerType {
+    word
+    phrase
+    sentence
+    paragraph
+    definition
+    synonym
+    antonym
+    translation
+    number
+    boolean
+}
