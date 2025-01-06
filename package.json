@@ -16,7 +16,13 @@
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
+  "trustedDependencies": [
+    "@prisma/client",
+    "@prisma/engines",
+    "prisma"
+  ],
   "dependencies": {
+    "@prisma/client": "^6.1.0",
     "@slack/bolt": "^4.2.0"
   }
 }
