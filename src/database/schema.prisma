@@ -127,6 +127,15 @@ model ChallengeResponse {
     User           User           @relation(fields: [userId], references: [id])
 }
 
+model Channel {
+    id Int @id @default(autoincrement())
+    channelId String @unique
+    name String?
+    isActive Boolean @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
 enum TextType {
     reading
     listening
