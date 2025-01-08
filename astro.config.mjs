@@ -1,8 +1,10 @@
 import { defineConfig } from "astro/config";
-import vue from "@astrojs/vue";
+import react from "@astrojs/react";
+
+import tailwind from "@astrojs/tailwind";
 
 export default defineConfig({
   root: "./",
   srcDir: "./src/admin",
-  integrations: [vue()],
+  integrations: [react(), tailwind()],
 });
