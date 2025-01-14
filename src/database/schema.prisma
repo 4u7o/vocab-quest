@@ -32,15 +32,17 @@ model Text {
 }
 
 model Word {
-    id           Int          @id @default(autoincrement())
-    term         String
-    definition   String
-    partOfSpeech PartOfSpeech //NOUN, VERB, ADJ
-    example      String?
-    sound        String?
-    image        String?
-    createdAt    DateTime     @default(now())
-    Questions    Question[]   @relation("WordToQuestion")
+    id            Int          @id @default(autoincrement())
+    term          String
+    definition    String
+    partOfSpeech  PartOfSpeech? //NOUN, VERB, ADJ
+    type          WordType
+    pronunciation String?
+    example       String?
+    sound         String?
+    image         String?
+    createdAt     DateTime     @default(now())
+    Questions     Question[]   @relation("WordToQuestion")
 }
 
 model Question {
@@ -128,10 +130,10 @@ model ChallengeResponse {
 }
 
 model Channel {
-    id Int @id @default(autoincrement())
-    channelId String @unique
-    name String?
-    isActive Boolean @default(true)
+    id        Int      @id @default(autoincrement())
+    channelId String   @unique
+    name      String?
+    isActive  Boolean  @default(true)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
@@ -169,4 +171,10 @@ enum AnswerType {
     translation
     number
     boolean
+}
+
+enum WordType {
+    word
+    prefix
+    suffix
 }
