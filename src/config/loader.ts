@@ -43,5 +43,10 @@ export const loadConfig = (): Config => {
       return value as "development" | "production" | "test";
     }),
     PORT: getEnv("PORT", (value) => parseInt(value, 10), 3000),
+    ORACLE_REGION: getEnv("ORACLE_REGION"),
+    ORACLE_BUCKET: getEnv("ORACLE_BUCKET"),
+    ORACLE_BUCKET_URL: getEnv("ORACLE_BUCKET_URL"),
+    ORACLE_BUCKET_PAR_NAME: getEnv("ORACLE_BUCKET_PAR_NAME"),
+    ORACLE_BUCKET_PAR_WRITE: getEnv("ORACLE_BUCKET_PAR_WRITE"),
   };
 };
