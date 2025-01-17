@@ -1,7 +1,8 @@
 import { App } from "@slack/bolt";
 import { config } from "config";
 import { errorHandler } from "bot/middlewares/error-handle.middleware";
-import { channelHandler } from "bot/commands/channel";
+import { channelHandler } from "bot/commands/channel.command";
+import { dailyChallengeSubmitActionHandler } from "bot/actions/daily-challenge-submit.action";
 
 const app = new App({
   signingSecret: config.SLACK_SIGNING_SECRET,
@@ -10,7 +11,12 @@ const app = new App({
   appToken: config.SLACK_APP_TOKEN,
 });
 
+// Register all application function here.
+
 app.use(errorHandler);
+
 app.command("/channel", channelHandler);
-await app.start();
-console.log("⚡️ Bolt app is running!");
+
+app.action("dailyChallengeSubmitAction", dailyChallengeSubmitActionHandler);
+
+export default app;
