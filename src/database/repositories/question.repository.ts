@@ -16,4 +16,19 @@ export class QuestionRepository {
       },
     });
   }
+
+  static async findOneRandomExclude(excludedQuestionIds: number[]) {
+    const questionTake = 1 + excludedQuestionIds.length;
+    const questionCount = await prisma.question.count();
+    const skip = Math.max(0, Math.floor(Math.random() * questionCount) - questionTake);
+    return await prisma.question.findFirstOrThrow({
+      take: questionTake,
+      skip: skip,
+      where: {
+        id: {
+          notIn: excludedQuestionIds,
+        },
+      },
+    });
+  }
 }

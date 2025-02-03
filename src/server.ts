@@ -1,5 +1,5 @@
 import app from "app";
-import { registerSchedule } from "bot/schedules";
+import { registerSchedule } from "slack/schedules";
 
 (async () => {
   try {

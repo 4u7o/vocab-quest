@@ -36,6 +36,7 @@
     "paths": {
       "types/*": ["types/*"],
       "errors/*": ["errors/*"],
+      "styles/*": ["styles/*"],
     }
   },
   "extends": "astro/tsconfigs/base"

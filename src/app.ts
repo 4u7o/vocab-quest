@@ -1,8 +1,8 @@
 import { App } from "@slack/bolt";
 import { config } from "config";
-import { errorHandler } from "bot/middlewares/error-handle.middleware";
-import { channelHandler } from "bot/commands/channel.command";
-import { dailyChallengeSubmitActionHandler } from "bot/actions/daily-challenge-submit.action";
+import { errorHandler } from "slack/middlewares/error-handle.middleware";
+import { channelHandler } from "slack/commands/channel.command";
+import { dailyChallengeSubmitActionHandler } from "slack/actions/daily-challenge-submit.action";
 
 const app = new App({
   signingSecret: config.SLACK_SIGNING_SECRET,
